@@ -1,46 +1,31 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Produit } from '../produit/Produit.interface';
-import { BoutiqueService } from '../boutique.service';
-import { Categorie } from '../categorie/categorie.interface';
+import { Component, OnInit, Input } from "@angular/core";
+import { Produit } from "../produit/Produit.interface";
+import { BoutiqueService } from "../boutique.service";
+import { Categorie } from "../categorie/categorie.interface";
+import { Router, ActivatedRoute, Params } from "@angular/router";
+import "rxjs/add/operator/switchMap";
 
 @Component({
-  selector: 'produit-detail',
+  selector: "produit-page",
   template: `
+    <div class="container">
 
-  <div class="container">
-    <div class="row">
-      <div class="col-md-4">
-          img
+      <produit-detail [produit]="produit"></produit-detail>
+
+      <section class="my-3">
+      <h3 class="my-2">Dans la même catégorie</h3>
+      <div class="row">
+        <produit
+          class="col-lg-3 col-md-4 mb-4"
+          *ngFor="let produit of produits"
+          [produit]="produit"
+        ></produit>
       </div>
-
-      <div class="col-md-8">
-        <h3>{{produit.nom}}</h3>
-
-        <h5>{{ produit.prix }}</h5>
-      </div>
+      </section>
     </div>
-    <div class="row">
-      <h3>Dans la même catégorie</h3>
-      <div class="list-group" >
-      <produit class="col-lg-4 col-md-6 mb-4"
-      *ngFor="let produit of produits"
-      [produit]="produit"></produit>
-      </div>
-    </div>
-    <div class="row">
-      <h3>De la même cooperative</h3>
-      <div class="list-group" >
-
-      </div>
-    </div>
-  </div>
-
   `
 })
-
 export class ProduitPageComponent implements OnInit {
-
-  @Input()
   produit: Produit;
 
   produits: Produit[];
@@ -49,11 +34,25 @@ export class ProduitPageComponent implements OnInit {
 
   produitsCategorie: Produit[];
 
-  constructor(private boutiqueService: BoutiqueService) { }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private boutiqueService: BoutiqueService
+  ) {}
 
   ngOnInit() {
-    this.boutiqueService
-    .getProduitsByCategorie(this.produit.categorie.id)
-    .subscribe((data: Produit[]) => (this.produits = data));
+    this.route.params
+      .switchMap((data: Produit) =>
+        this.boutiqueService.getProduitById(data.id)
+      )
+      .subscribe((data: Produit) => {
+        this.produit = data;
+        console.log("logging data", data);
+        this.boutiqueService
+          .getProduitsByCategorie(this.produit.categorie.id)
+          .subscribe((data: Produit[]) => (this.produits = data));
+      });
+
+    console.log("logging this.produit:", this.produit);
   }
 }

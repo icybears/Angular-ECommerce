@@ -11,14 +11,14 @@ import { Produit } from "./Produit.interface";
         /></a>
         <div class="card-body">
           <h4 class="card-title">
-            <a href="#">{{ produit.nom }}</a>
+            <a [routerLink]="['/boutique/produits', produit.id]">{{ produit.nom }}</a>
           </h4>
           <h5>{{ produit.prix }}</h5>
           <p class="card-text">Description</p>
         </div>
         <div class="card-footer"></div>
       </div>
-    
+
   `
 })
 export class ProduitComponent implements OnInit {

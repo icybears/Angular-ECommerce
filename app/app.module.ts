@@ -8,19 +8,20 @@ import { HomeComponent } from './home.component';
 import { BoutiqueComponent } from './boutique/boutique.component';
 import { NavComponent } from './navigation/nav.component';
 import { NotFoundComponent } from './not-found.component';
+import { ProduitPageComponent } from './boutique/produit-page/produit-page.component';
 
 const routes: Routes = [
   { path:'', component:HomeComponent, pathMatch:'full'},
-  { path:'boutique',component:BoutiqueComponent},
+
   { path:'**', component:NotFoundComponent},
-]
+];
 
 @NgModule({
   imports: [
     BrowserModule,
     CommonModule,
     BoutiqueModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes,{ enableTracing: true })
   ],
   bootstrap: [
     AppComponent
@@ -28,8 +29,8 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     HomeComponent,
-    NavComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    NavComponent
   ]
 })
 export class AppModule {}
