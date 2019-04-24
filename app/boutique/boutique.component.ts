@@ -6,6 +6,8 @@ import { Categorie } from "./categorie/categorie.interface";
 @Component({
   selector: "boutique",
   template: `
+
+  <!--############################ -->
     <div class="container">
       <div class="row">
         <!-- Left -->
