@@ -14,7 +14,8 @@ const routes: Routes = [
   { path: 'boutique',
     children:[
       { path:'', component: BoutiqueComponent, pathMatch:'full' },
-      { path:'produits/:id', component: ProduitPageComponent}
+      { path:'produit/:id', component: ProduitPageComponent},
+      { path:'categorie/:id', component: BoutiqueComponent}
     ]
   }
 ];

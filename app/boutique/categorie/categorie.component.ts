@@ -5,7 +5,7 @@ import { Categorie } from './categorie.interface';
   selector: 'categorie',
   template: `
   <div class="list-group-item">
-   {{ default ? "All" : categorie.nom}}
+    <a [routerLink]="['categorie', categorie.id]"> {{ default ? "All" : categorie.nom}}></a>
   </div>
   `
 })
