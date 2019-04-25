@@ -12,7 +12,7 @@ import { Cooperative } from "../cooperative/cooperative.interface";
     <div class="container">
       <button (click)="goBack()" class="btn btn-light">
         &lsaquo; Go Back
-      </button> 
+      </button>
       <section class="my-4">
         <div class="product-details row">
           <h1 class="product-title col-12">
@@ -45,7 +45,7 @@ import { Cooperative } from "../cooperative/cooperative.interface";
                 role="tabpanel"
                 aria-labelledby="pills-home-tab"
               >
-                <h3 class="tab-title">Description du Produit</h3>
+                <h3 class="tab-title">Description de la Cooperative</h3>
                 <p>
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                   Officia laudantium beatae quod perspiciatis, neque dolores eos
