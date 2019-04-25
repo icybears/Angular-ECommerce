@@ -5,9 +5,13 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import {Produit} from './produit/produit.interface';
 import { Categorie } from './categorie/categorie.interface';
+import { Cooperative } from './cooperative/cooperative.interface';
 
-const PRODUIT_API: string = 'http://localhost:8080/PFA/api/v1/produits';
-const CATEGORIE_API: string = 'http://localhost:8080/PFA/api/v1/categories'
+const rootUrl: string = 'http://localhost:8080/PFA/'
+
+const PRODUIT_API: string = `${rootUrl}api/v1/produits`;
+const CATEGORIE_API: string = `${rootUrl}api/v1/categories`;
+const COOPERATIVE_API: string = `${rootUrl}api/v1/cooperatives`;
 
 @Injectable()
 export class BoutiqueService {
@@ -59,6 +63,30 @@ getCategories(): Observable<Categorie[]> {
     })
     return this.http
       .get(CATEGORIE_API)
+      .map((response: Response) => response.json());
+  }
+
+  getCooperativeById(id: number):Observable<Cooperative> {
+    let headers = new Headers({
+      'Content-Type':'application/json'
+    });
+    let options = new RequestOptions({
+          headers: headers
+    })
+    return this.http
+      .get(COOPERATIVE_API+`/${id}`)
+      .map((response: Response) => response.json());
+  }
+
+  getProduitsByCooperative(id:number): Observable<Produit[]> {
+    let headers = new Headers({
+      'Content-Type':'application/json'
+    });
+    let options = new RequestOptions({
+          headers: headers
+    })
+    return this.http
+      .get(COOPERATIVE_API+`/${id}/produits`)
       .map((response: Response) => response.json());
   }
 

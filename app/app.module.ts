@@ -21,7 +21,7 @@ const routes: Routes = [
     BrowserModule,
     CommonModule,
     BoutiqueModule,
-    RouterModule.forRoot(routes,{ enableTracing: true })
+    RouterModule.forRoot(routes)
   ],
   bootstrap: [
     AppComponent

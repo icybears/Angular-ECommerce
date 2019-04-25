@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, EventEmitter, Output } from "@angular/core";
 import { Produit } from "./Produit.interface";
 
 @Component({
@@ -14,7 +14,7 @@ import { Produit } from "./Produit.interface";
 			</a>
 		</div>
 		<div class="card-body">
-		    <h4 class="card-title"><a href="">{{produit?.nom}}</a></h4>
+		    <h4 class="card-title"><a [routerLink]="['/boutique/produit', produit?.id]">{{produit?.nom}}</a></h4>
 		    <ul class="list-inline product-meta">
 		    	<li class="list-inline-item">
 		    		<a href=""><i class="fa fa-folder-open-o"></i>{{produit?.categorie?.nom}}</a>
@@ -22,7 +22,7 @@ import { Produit } from "./Produit.interface";
 		    	<li class="list-inline-item">
 		    		<a href=""><i class="fa fa-certificate"></i>{{produit?.cooperative?.nom}}</a>
 		    	</li>
-		    </ul> 
+		    </ul>
 		    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, aliquam!</p>
 
 		</div>
@@ -39,7 +39,13 @@ export class ProduitComponent implements OnInit {
   @Input()
   produit: Produit;
 
+  // @Output()
+  // afficher: EventEmitter<Produit> = new EventEmitter<Produit>();
   constructor() {}
 
   ngOnInit() {}
+
+  // afficherProduit(){
+  //   this.afficher.emit(this.produit);
+  // }
 }

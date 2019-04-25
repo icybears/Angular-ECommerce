@@ -9,13 +9,17 @@ import { ProduitPageComponent } from './produit-page/produit-page.component';
 import { RouterModule, Routes } from '@angular/router';
 import { NavComponent } from '../navigation/nav.component';
 import { ProduitDetailComponent } from './produit-detail/produit-detail.component';
+import { FooterComponent } from './footer/footer.component';
+import { ProduitsGridComponent } from './produits-grid/produits-grid.component';
+import { CooperativePageComponent } from './cooperative-page/cooperative-page.component';
 
 const routes: Routes = [
   { path: 'boutique',
     children:[
       { path:'', component: BoutiqueComponent, pathMatch:'full' },
       { path:'produit/:id', component: ProduitPageComponent},
-      { path:'categorie/:id', component: BoutiqueComponent}
+      { path:'categorie/:id', component: BoutiqueComponent},
+      { path: 'cooperative/:id', component: CooperativePageComponent}
     ]
   }
 ];
@@ -35,7 +39,10 @@ const routes: Routes = [
     ProduitComponent,
     CategorieComponent,
     ProduitPageComponent,
-    ProduitDetailComponent
+    ProduitDetailComponent,
+    ProduitsGridComponent,
+    CooperativePageComponent,
+    FooterComponent
     ],
   providers: [
     BoutiqueService

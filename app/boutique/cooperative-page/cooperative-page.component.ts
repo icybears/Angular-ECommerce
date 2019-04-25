@@ -4,31 +4,32 @@ import { BoutiqueService } from "../boutique.service";
 import { Categorie } from "../categorie/categorie.interface";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import "rxjs/add/operator/switchMap";
+import { Cooperative } from "../cooperative/cooperative.interface";
 
 @Component({
-  selector: "produit-page",
+  selector: "cooperative-page",
   template: `
     <div class="container">
       <button (click)="goBack()" class="btn btn-light">
         &lsaquo; Go Back
-      </button>
+      </button> 
       <section class="my-4">
         <div class="product-details row">
           <h1 class="product-title col-12">
-            {{ produit?.nom  }}
+            {{cooperative?.nom}}
           </h1>
           <div class="product-meta col-12">
             <ul class="list-inline">
 
               <li class="list-inline-item">
                 <i class="fa fa-folder-open-o"></i> Categorie<a href=""
-                  >{{produit?.categorie.nom}}</a
+                  >{{cooperative?.nom}}</a
                 >
               </li>
               <li class="list-inline-item">
-                <i class="fa fa-certificate"></i> Cooperative<a href=""
-                  >{{produit?.cooperative.nom}}</a
-                >
+                <i class="fa fa-certificate"></i> Cooperative<a href="">
+                  something
+                </a>
               </li>
             </ul>
           </div>
@@ -52,20 +53,20 @@ import "rxjs/add/operator/switchMap";
                   pariatur, sunt repellendus quas voluptate dolor cumque autem
                   molestias.
                 </p>
-                <h3 class="mb-3">Prix: {{produit?.prix}} DH</h3>
+
 
               </div>
 
             </div>
 
-            <button class="btn btn-success btn-lg"> Ajouter au Panier</button>
+
           </div>
 
         </div>
       </section>
 
       <section class="mt-4">
-        <h3 class="mb-4 mt-3 underline">Dans la même catégorie</h3>
+        <h3 class="mb-4 mt-3 underline">Produits de cette cooperative:</h3>
         <div class="row">
           <produit
             class="col-lg-3 col-md-4 mb-4"
@@ -77,8 +78,9 @@ import "rxjs/add/operator/switchMap";
     </div>
   `
 })
-export class ProduitPageComponent implements OnInit {
-  produit: Produit;
+export class CooperativePageComponent implements OnInit {
+
+  cooperative: Cooperative;
 
   produits: Produit[];
 
@@ -94,16 +96,16 @@ export class ProduitPageComponent implements OnInit {
 
   ngOnInit() {
     this.route.params
-      .switchMap((data: any) =>
+      .switchMap((data: Cooperative) =>
 
-        this.boutiqueService.getProduitById(data.id)
+        this.boutiqueService.getCooperativeById(data.id)
 
       )
-      .subscribe((data: Produit) => {
-        this.produit = data;
+      .subscribe((data: Cooperative) => {
+        this.cooperative = data;
         console.log("logging data", data);
         this.boutiqueService
-          .getProduitsByCategorie(this.produit.categorie.id)
+          .getProduitsByCooperative(this.cooperative.id)
           .subscribe((data: Produit[]) => (this.produits = data));
       });
 
