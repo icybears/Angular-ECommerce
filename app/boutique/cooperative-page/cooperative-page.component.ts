@@ -21,22 +21,13 @@ import { Cooperative } from "../cooperative/cooperative.interface";
           <div class="product-meta col-12">
             <ul class="list-inline">
 
-              <li class="list-inline-item">
-                <i class="fa fa-folder-open-o"></i> Categorie<a href=""
-                  >{{cooperative?.nom}}</a
-                >
-              </li>
-              <li class="list-inline-item">
-                <i class="fa fa-certificate"></i> Cooperative<a href="">
-                  something
-                </a>
-              </li>
+            
             </ul>
           </div>
-          <div class="col-md-6">
+         <!-- <div class="col-md-6">
             <img class="card-img-top" src="https://via.placeholder.com/150" alt="Card image cap">
           </div>
-
+          -->
           <div class="col-md-6">
             <div class="tab-content" id="pills-tabContent">
               <div
@@ -75,6 +66,7 @@ import { Cooperative } from "../cooperative/cooperative.interface";
           ></produit>
         </div>
       </section>
+
     </div>
   `
 })

@@ -6,12 +6,14 @@ import 'rxjs/add/operator/map';
 import {Produit} from './produit/produit.interface';
 import { Categorie } from './categorie/categorie.interface';
 import { Cooperative } from './cooperative/cooperative.interface';
+import { MatierePremiere } from './matiere-premiere/matiere-premiere.interface';
 
 const rootUrl: string = 'http://localhost:8080/PFA/'
 
 const PRODUIT_API: string = `${rootUrl}api/v1/produits`;
 const CATEGORIE_API: string = `${rootUrl}api/v1/categories`;
 const COOPERATIVE_API: string = `${rootUrl}api/v1/cooperatives`;
+const MATIERE_PREMIERE_API: string = `${rootUrl}api/v1/matieres-premieres`;
 
 @Injectable()
 export class BoutiqueService {
@@ -41,7 +43,17 @@ export class BoutiqueService {
       .get(PRODUIT_API+`/${id}`)
       .map((response: Response) => response.json());
   }
-
+  getProduitsByCooperative(id:number): Observable<Produit[]> {
+    let headers = new Headers({
+      'Content-Type':'application/json'
+    });
+    let options = new RequestOptions({
+          headers: headers
+    })
+    return this.http
+      .get(COOPERATIVE_API+`/${id}/produits`)
+      .map((response: Response) => response.json());
+  }
   getProduitsByCategorie(id:number): Observable<Produit[]> {
     let headers = new Headers({
       'Content-Type':'application/json'
@@ -78,7 +90,7 @@ getCategories(): Observable<Categorie[]> {
       .map((response: Response) => response.json());
   }
 
-  getProduitsByCooperative(id:number): Observable<Produit[]> {
+  getCooperatives(): Observable<Cooperative[]> {
     let headers = new Headers({
       'Content-Type':'application/json'
     });
@@ -86,8 +98,19 @@ getCategories(): Observable<Categorie[]> {
           headers: headers
     })
     return this.http
-      .get(COOPERATIVE_API+`/${id}/produits`)
+      .get(COOPERATIVE_API)
       .map((response: Response) => response.json());
   }
 
+  getMatieresPremieres(): Observable<MatierePremiere[]> {
+    let headers = new Headers({
+      'Content-Type':'application/json'
+    });
+    let options = new RequestOptions({
+          headers: headers
+    })
+    return this.http
+      .get(MATIERE_PREMIERE_API)
+      .map((response: Response) => response.json());
+  }
 }

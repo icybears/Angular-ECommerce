@@ -3,12 +3,13 @@ import { Produit } from "./produit/produit.interface";
 import { BoutiqueService } from "./boutique.service";
 import { Categorie } from "./categorie/categorie.interface";
 import { Router, ActivatedRoute, Params } from "@angular/router";
+import { Cooperative } from "./cooperative/cooperative.interface";
+import { MatierePremiere } from "./matiere-premiere/matiere-premiere.interface";
 
 @Component({
   selector: "boutique",
   template: `
-
-   <!-- <section>
+    <!-- <section>
       <div class="container">
         <div class="row">
           <div class="col-md-12">
@@ -103,7 +104,7 @@ import { Router, ActivatedRoute, Params } from "@angular/router";
         </div>
       </div>
     </section>-->
-  <!-- <section class="page-search">
+    <!-- <section class="page-search">
       <div class="container">
         <div class="row">
           <div class="col-md-12">
@@ -162,54 +163,47 @@ import { Router, ActivatedRoute, Params } from "@angular/router";
           <div class="col-md-3">
             <div class="category-sidebar">
               <div class="widget category-list">
-                <h4 class="widget-header">Nos Categories</h4>
+                <h4 class="widget-header">Categorie</h4>
                 <ul class="category-list">
                   <li>
-                    <a [routerLink]="['/boutique/categorie','all']">Tout les produits <span>343</span></a>
+                    <a [routerLink]="['/boutique/categorie', 'all']"
+                      >Tout les produits <span>343</span></a
+                    >
                   </li>
                   <li *ngFor="let categorie of categories">
                     <a [routerLink]="['/boutique/categorie', categorie?.id]"
-
-                    >{{categorie?.nom}} <span>343</span></a>
+                      >{{ categorie?.nom }} <span>343</span></a
+                    >
                   </li>
                 </ul>
               </div>
 
               <div class="widget category-list">
-                <h4 class="widget-header">Nearby</h4>
+                <h4 class="widget-header">Matiere Premiere</h4>
                 <ul class="category-list">
-                  <li>
-                    <a href="category.html">New York <span>93</span></a>
+                  <li *ngFor="let matiere of matieres_premieres">
+                    <a href="">{{ matiere?.nom }} <span>93</span></a>
                   </li>
-                  <li>
-                    <a href="category.html">New Jersy <span>233</span></a>
-                  </li>
-                  <li>
-                    <a href="category.html">Florida <span>183</span></a>
-                  </li>
-                  <li>
-                    <a href="category.html">California <span>120</span></a>
-                  </li>
-                  <li>
-                    <a href="category.html">Texas <span>40</span></a>
-                  </li>
-                  <li>
-                    <a href="category.html">Alaska <span>81</span></a>
-                  </li>
+
                 </ul>
               </div>
 
               <div class="widget filter">
-                <h4 class="widget-header">Show Produts</h4>
-                <select>
-                  <option>Popularity</option>
-                  <option value="1">Top rated</option>
-                  <option value="2">Lowest Price</option>
-                  <option value="4">Highest Price</option>
-                </select>
+                <h4 class="widget-header">Cooperative</h4>
+
+                <div class="nice-select" tabindex="0">
+                  <span class="current">Cooperative</span>
+                  <ul class="list">
+                    <li  data-value="Cooperative" class="option selected focus">
+                      Cooperative
+                    </li>
+                    <a href=""><li  *ngFor="let cooperative of cooperatives" data-value="2" class="option">
+                    {{ cooperative?.nom }}
+                    </li></a>
+
+                  </ul>
+                </div>
               </div>
-
-
 
               <!-- Fin category sidebar -->
             </div>
@@ -280,42 +274,50 @@ import { Router, ActivatedRoute, Params } from "@angular/router";
     <!--============================
 =            Footer            =
 =============================-->
-  <boutique-footer></boutique-footer>
-
+    <boutique-footer></boutique-footer>
   `
 })
 export class BoutiqueComponent implements OnInit {
   produits: Produit[];
   categories: Categorie[];
-  selectedCategorie: Categorie;
-  constructor(private boutiqueService: BoutiqueService,
+  cooperatives: Cooperative[];
+  matieres_premieres: MatierePremiere[];
+
+  constructor(
+    private boutiqueService: BoutiqueService,
     private router: Router,
-    private route: ActivatedRoute,) {}
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
-
-    this.route.params.subscribe(
-      (params : Params) => {
-        console.log("current route is: ",this.route.url)
-        if(params["id"] && params["id"] !== 'all'){
-
-          let id = params["id"];
-           this.boutiqueService
+    this.route.params.subscribe((params: Params) => {
+      console.log("current route is: ", this.route.url);
+      if (params["id"] && params["id"] !== "all") {
+        let id = params["id"];
+        this.boutiqueService
           .getProduitsByCategorie(id)
           .subscribe((data: Produit[]) => (this.produits = data));
-        } else {
-          this.boutiqueService
+      } else {
+        this.boutiqueService
           .getProduits()
           .subscribe((data: Produit[]) => (this.produits = data));
-        }
       }
-   );
+    });
 
-
-
+    // get all categories
     this.boutiqueService
       .getCategories()
-      .subscribe((data: Produit[]) => (this.categories = data));
+      .subscribe((data: Categorie[]) => (this.categories = data));
+
+    // get all cooperatives
+    this.boutiqueService
+      .getCooperatives()
+      .subscribe((data: Cooperative[]) => (this.cooperatives = data));
+
+    // get all matieres premieres
+    this.boutiqueService
+      .getMatieresPremieres()
+      .subscribe((data: MatierePremiere[]) => (this.matieres_premieres = data));
   }
 
   setCategorie(categorie: Categorie) {
