@@ -6,6 +6,8 @@ import { Router, ActivatedRoute, Params } from "@angular/router";
 import { Cooperative } from "./cooperative/cooperative.interface";
 import { MatierePremiere } from "./matiere-premiere/matiere-premiere.interface";
 
+import 'rxjs/add/operator/filter';
+
 @Component({
   selector: "boutique",
   template: `
@@ -165,15 +167,15 @@ import { MatierePremiere } from "./matiere-premiere/matiere-premiere.interface";
               <div class="widget category-list">
                 <h4 class="widget-header">Categorie</h4>
                 <ul class="category-list">
+               
                   <li>
-                    <a [routerLink]="['/boutique/categorie', 'all']"
-                      >Tout les produits <span>343</span></a
-                    >
+                    <a [routerLink]="['/boutique']" [queryParams]="{categorie:'all'}">
+                    Tout les produits <span>343</span></a>
+
                   </li>
                   <li *ngFor="let categorie of categories">
-                    <a [routerLink]="['/boutique/categorie', categorie?.id]"
-                      >{{ categorie?.nom }} <span>343</span></a
-                    >
+                    <a [routerLink]="['/boutique']" [queryParams]="{categorie:categorie?.id}">{{categorie?.nom}} <span>343</span></a>
+
                   </li>
                 </ul>
               </div>
@@ -182,7 +184,7 @@ import { MatierePremiere } from "./matiere-premiere/matiere-premiere.interface";
                 <h4 class="widget-header">Matiere Premiere</h4>
                 <ul class="category-list">
                   <li *ngFor="let matiere of matieres_premieres">
-                    <a href="">{{ matiere?.nom }} <span>93</span></a>
+                    <a [routerLink]="['/boutique']" [queryParams]="{matierePremiere:matiere?.id}">{{ matiere?.nom }} <span>93</span></a>
                   </li>
 
                 </ul>
@@ -197,7 +199,7 @@ import { MatierePremiere } from "./matiere-premiere/matiere-premiere.interface";
                     <li  data-value="Cooperative" class="option selected focus">
                       Cooperative
                     </li>
-                    <a href=""><li  *ngFor="let cooperative of cooperatives" data-value="2" class="option">
+                    <a *ngFor="let cooperative of cooperatives" [routerLink]="['/boutique']" [queryParams]="{ cooperative: cooperative?.id}"><li class="option">
                     {{ cooperative?.nom }}
                     </li></a>
 
@@ -290,19 +292,50 @@ export class BoutiqueComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.route.params.subscribe((params: Params) => {
-      console.log("current route is: ", this.route.url);
-      if (params["id"] && params["id"] !== "all") {
-        let id = params["id"];
-        this.boutiqueService
-          .getProduitsByCategorie(id)
+    console.log(this.router.url);
+    this.route.queryParams
+      .filter(params => true)
+      .subscribe(params => {
+        if(params.categorie && params.categorie > 0){
+          this.boutiqueService
+         .getProduitsByCategorie(params.categorie)
+         .subscribe((data: Produit[]) => (this.produits = data));
+        } else if(params.cooperative && params.cooperative > 0)
+        {
+          this.boutiqueService
+          .getProduitsByCooperative(params.cooperative)
           .subscribe((data: Produit[]) => (this.produits = data));
-      } else {
-        this.boutiqueService
+
+        } else if(params.matierePremiere && params.matierePremiere > 0)
+        {
+          this.boutiqueService.getProduitsByMatierePremiere(params.matierePremiere)
+          .subscribe((data: Produit[]) => (this.produits = data));
+        }
+          else {
+          this.boutiqueService
           .getProduits()
-          .subscribe((data: Produit[]) => (this.produits = data));
-      }
-    });
+         .subscribe((data: Produit[]) => (this.produits = data));
+        }
+
+
+        // this.order = params.order;
+        // console.log(this.order); // popular
+      });
+
+
+    // this.route.params.subscribe((params: Params) => {
+    //   console.log("current route is: ", this.router.url);
+    //   if (params["id"] && params["id"] !== "all") {
+    //     let id = params["id"];
+    //     this.boutiqueService
+    //       .getProduitsByCategorie(id)
+    //       .subscribe((data: Produit[]) => (this.produits = data));
+    //   } else {
+    //     this.boutiqueService
+    //       .getProduits()
+    //       .subscribe((data: Produit[]) => (this.produits = data));
+    //   }
+    //});
 
     // get all categories
     this.boutiqueService
