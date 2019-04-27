@@ -11,7 +11,7 @@ import 'rxjs/add/operator/filter';
 @Component({
   selector: "boutique",
   template: `
-    <!-- <section>
+     <section>
       <div class="container">
         <div class="row">
           <div class="col-md-12">
@@ -48,7 +48,7 @@ import 'rxjs/add/operator/filter';
                     >
                       Pages <span><i class="fa fa-angle-down"></i></span>
                     </a>
-                     Dropdown list
+    <!--                Dropdown list -->
                     <div class="dropdown-menu dropdown-menu-right">
                       <a class="dropdown-item" href="category.html">Category</a>
                       <a class="dropdown-item" href="single.html"
@@ -82,7 +82,7 @@ import 'rxjs/add/operator/filter';
                     >
                       Listing <span><i class="fa fa-angle-down"></i></span>
                     </a>
-                     Dropdown list
+              <!--    Dropdown list -->
                     <div class="dropdown-menu dropdown-menu-right">
                       <a class="dropdown-item" href="#">Action</a>
                       <a class="dropdown-item" href="#">Another action</a>
@@ -95,9 +95,9 @@ import 'rxjs/add/operator/filter';
                     <a class="nav-link login-button" href="index.html">Login</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link add-button" href="#"
-                      ><i class="fa fa-plus-circle"></i> Add Listing</a
-                    >
+                    <a class="nav-link add-button" [routerLink]="['/boutique/panier']">
+                    <i class="fa fa-shopping-cart"></i> Mon Panier <span class="badge badge-light">
+                    {{itemsCount}}</span></a>
                   </li>
                 </ul>
               </div>
@@ -105,7 +105,7 @@ import 'rxjs/add/operator/filter';
           </div>
         </div>
       </div>
-    </section>-->
+    </section>
     <!-- <section class="page-search">
       <div class="container">
         <div class="row">
@@ -153,9 +153,7 @@ import 'rxjs/add/operator/filter';
     <section class="section-sm">
       <div class="container">
       <div class="row">
-        <panier (panierCount)="handlePanierCount($event)"></panier>
-        <hr>
-        <strong>Dans votre panier: {{ itemsCount }} items</strong>
+        <panier style="display:none;" (panierCount)="handlePanierCount($event)"></panier>
       </div>
         <!-- RESULTAT DE RECHERCHE
         <div class="row">

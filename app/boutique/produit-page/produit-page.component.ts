@@ -9,10 +9,12 @@ import "rxjs/add/operator/switchMap";
   selector: "produit-page",
   template: `
     <div class="container">
-      <button (click)="goBack()" class="btn btn-light">
-        &lsaquo; Go Back
+    <div class="my-2">
+      <button (click)="goBack()" class="btn btn-light btn-sm">
+        &lsaquo; Retour
       </button>
-      <section class="my-4">
+    </div>
+      <section class="my-2">
         <div class="product-details row">
           <h1 class="product-title col-12">
             {{ produit?.nom }}

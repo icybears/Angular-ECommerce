@@ -1026,6 +1026,8 @@ ul.pagination .active a {
 .dashboard-container .product-dashboard-table td {
   vertical-align: middle;
   padding: 40px 0;
+  padding-top:10px;
+  padding-bottom:10px;
 }
 
 .dashboard-container .product-dashboard-table .product-thumb {
@@ -2484,4 +2486,9 @@ article.single-post p {
   border-bottom: 1px solid #dedede;
   padding-bottom: 10px;
   margin-bottom: 20px;
+}
+
+.btn-sm{
+  padding:.25rem .5rem;
+  font-size: .875rem;
 }

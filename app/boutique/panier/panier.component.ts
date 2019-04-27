@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Output } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Location } from '@angular/common';
+import { Location } from "@angular/common";
 import { BoutiqueService } from "../boutique.service";
 import { Item } from "./item.class";
 import { Produit } from "../produit/produit.interface";
@@ -8,39 +8,89 @@ import { Produit } from "../produit/produit.interface";
 @Component({
   selector: "panier",
   template: `
-    <h3>Cart Info</h3>
-    <table border="1">
-      <tr>
-        <th>Option</th>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Photo</th>
-        <th>Price</th>
-        <th>Quantity</th>
-        <th>Sub Total</th>
-      </tr>
-      <tr *ngFor="let item of items">
-        <td align="center">
-          <button (click)="remove(item.produit.id)">X</button>
-        </td>
-        <td>{{ item.produit.id }}</td>
-        <td>{{ item.produit.nom }}</td>
-        <td>
-          <img src="https://via.placeholder.com/150" width="50" />
-        </td>
-        <td>{{ item.produit.prix }}</td>
-        <td>{{ item.quantite }}</td>
-        <td>{{ item.produit.prix * item.quantite }}</td>
-      </tr>
-      <tr>
-        <td colspan="6" align="right">Total</td>
-        <td>{{ total }}</td>
-      </tr>
-    </table>
+  <section class="container mt-3">
+  <div class="py-2">
+  <button (click)="goBack()" class="btn btn-light btn-sm"> &lsaquo; Continuer mes Achats</button>
+  </div>
+    <div class="col-md-8 offset-md-2 ">
+      <!-- Recently Favorited -->
+      <div class="widget dashboard-container my-adslist">
+        <h3 class="">Mon Panier</h3>
+        <table class="table table-responsive product-dashboard-table">
+          <thead>
+            <tr>
+            <th class="text-center">Action</th>
+              <th>Image</th>
+              <th>Produit</th>
+              <th class="text-center">Prix</th>
+              <th class="text-center">Qte</th>
+              <th class="text-center">Montant</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of items">
+            <td class="action" data-title="Action">
+                <div class="">
+                  <ul class="list-inline justify-content-center">
+                    <li class="list-inline-item">
+                      <a
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="Tooltip on top"
+                        class="view"
+                        [routerLink]="['/boutique/produit', item.produit.id]"
+                        target="_blank" >
+                        <i class="fa fa-eye"></i>
+                      </a>
+                    </li>
+                    <li class="list-inline-item">
+                      <a (click)="remove(item.produit.id)" class="delete" href="javascript:void(0);">
+                        <i class="fa fa-trash"></i>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </td>
+              <td class="product-thumb">
+                <img
+                  width="80px"
+                  height="auto"
+                  src="https://via.placeholder.com/150"
+                  alt="image description"
+                />
+              </td>
+
+              <td class="product-details pl-2">
+                <span class="">{{item.produit.nom}}</span>
+
+              </td>
+              <td class ="product-category">
+                <span class="">{{item.produit.prix}} DH</span>
+              </td>
+
+              <td class="product-category">
+                <span class="categories">{{item.quantite}}</span>
+              </td>
+              <td class="product-category">
+                <span>{{ item.produit.prix * item.quantite }}</span>
+              </td>
+
+            </tr>
+            <tr>
+              <td colspan="5" align="right"><strong>Total</strong></td>
+              <td class="text-center"><strong>{{ total }} DH</strong></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+</section>
+
+
   `
 })
 export class PanierComponent implements OnInit {
-
   items: Item[] = [];
   total: number = 0;
   redirect: boolean = false;
@@ -50,9 +100,9 @@ export class PanierComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private location: Location,
-    private boutiqueService: BoutiqueService,
-
+    private boutiqueService: BoutiqueService
   ) {}
 
   ngOnInit() {
@@ -110,12 +160,11 @@ export class PanierComponent implements OnInit {
           this.loadCart();
         }
 
-        if(this.redirect){
-          this.location.back();
-        }
+        // if (this.redirect) {
+        //   this.location.back();
+        // }
       });
   }
-
 
   loadCart(): void {
     this.total = 0;
@@ -139,11 +188,15 @@ export class PanierComponent implements OnInit {
     for (var i = 0; i < panier.length; i++) {
       let item: Item = JSON.parse(panier[i]);
       if (Number(item.produit.id) == Number(id)) {
-      	panier.splice(i, 1);
-      	break;
+        panier.splice(i, 1);
+        break;
       }
     }
     localStorage.setItem("panier", JSON.stringify(panier));
     this.loadCart();
+  }
+
+  goBack() {
+    this.router.navigate(["/boutique"]);
   }
 }
