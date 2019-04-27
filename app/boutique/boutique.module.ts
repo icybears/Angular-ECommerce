@@ -12,14 +12,16 @@ import { ProduitDetailComponent } from './produit-detail/produit-detail.componen
 import { FooterComponent } from './footer/footer.component';
 import { ProduitsGridComponent } from './produits-grid/produits-grid.component';
 import { CooperativePageComponent } from './cooperative-page/cooperative-page.component';
+import { QuantiteComponent } from './quantite/quantite.component';
+import { PanierComponent } from './panier/panier.component';
 
 const routes: Routes = [
   { path: 'boutique',
     children:[
       { path:'', component: BoutiqueComponent, pathMatch:'full' },
       { path:'produit/:id', component: ProduitPageComponent},
-      { path:'categorie/:id', component: BoutiqueComponent},
-      { path: 'cooperative/:id', component: CooperativePageComponent}
+      { path: 'cooperative/:id', component: CooperativePageComponent},
+      { path: 'panier', component: PanierComponent },
     ]
   }
 ];
@@ -42,6 +44,8 @@ const routes: Routes = [
     ProduitDetailComponent,
     ProduitsGridComponent,
     CooperativePageComponent,
+    QuantiteComponent,
+    PanierComponent,
     FooterComponent
     ],
   providers: [

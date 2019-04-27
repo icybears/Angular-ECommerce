@@ -15,25 +15,30 @@ import "rxjs/add/operator/switchMap";
       <section class="my-4">
         <div class="product-details row">
           <h1 class="product-title col-12">
-            {{ produit?.nom  }}
+            {{ produit?.nom }}
           </h1>
-          <div class="product-meta col-12">
+          <div class="product-meta col-12 mb-3">
             <ul class="list-inline">
-
               <li class="list-inline-item">
-                <i class="fa fa-folder-open-o"></i> Categorie<a href=""
-                  >{{produit?.categorie.nom}}</a
-                >
+                <i class="fa fa-folder-open-o"></i> Categorie<a href="">{{
+                  produit?.categorie.nom
+                }}</a>
               </li>
               <li class="list-inline-item">
-                <i class="fa fa-certificate"></i> Cooperative<a href=""
-                  >{{produit?.cooperative.nom}}</a
-                >
+                <i class="fa fa-certificate"></i> Cooperative<a href="">{{
+                  produit?.cooperative.nom
+                }}</a>
               </li>
             </ul>
           </div>
-          <div class="col-md-6">
-            <img class="card-img-top" src="https://via.placeholder.com/150" alt="Card image cap">
+          <div class="col-md-6 row">
+            <div class="col-md-8 offset-md-2">
+              <img
+                class=" card-img-top"
+                src="https://via.placeholder.com/150"
+                alt="Card image cap"
+              />
+            </div>
           </div>
 
           <div class="col-md-6">
@@ -52,15 +57,19 @@ import "rxjs/add/operator/switchMap";
                   pariatur, sunt repellendus quas voluptate dolor cumque autem
                   molestias.
                 </p>
-                <h3 class="mb-3">Prix: {{produit?.prix}} DH</h3>
-
+                <h3 class="mb-3">Prix: {{ produit?.prix }} DH</h3>
               </div>
-
             </div>
 
-            <button class="btn btn-success btn-lg"> Ajouter au Panier</button>
-          </div>
+            <div>
+              Quantite: <quantite (quantiteChanged)="getQuantite($event)"></quantite>
+            </div>
+            <button class="btn btn-success btn-lg">Ajouter au Panier</button>
 
+            <hr>
+
+            <a [routerLink]="['/boutique/panier']" [queryParams]="{ produit: produit?.id, quantite:quantite}" >Ajouter au panier</a>
+          </div>
         </div>
       </section>
 
@@ -80,6 +89,8 @@ import "rxjs/add/operator/switchMap";
 export class ProduitPageComponent implements OnInit {
   produit: Produit;
 
+  quantite: number;
+
   produits: Produit[];
 
   produitsCooperative: Produit[];
@@ -94,11 +105,7 @@ export class ProduitPageComponent implements OnInit {
 
   ngOnInit() {
     this.route.params
-      .switchMap((data: any) =>
-
-        this.boutiqueService.getProduitById(data.id)
-
-      )
+      .switchMap((data: any) => this.boutiqueService.getProduitById(data.id))
       .subscribe((data: Produit) => {
         this.produit = data;
         console.log("logging data", data);
@@ -106,11 +113,14 @@ export class ProduitPageComponent implements OnInit {
           .getProduitsByCategorie(this.produit.categorie.id)
           .subscribe((data: Produit[]) => (this.produits = data));
       });
-
-
   }
 
-  goBack(){
-    this.router.navigate(['/boutique'])
+  getQuantite(quantite: number){
+    this.quantite = quantite;
+    console.log(quantite);
+  }
+
+  goBack() {
+    this.router.navigate(["/boutique"]);
   }
 }

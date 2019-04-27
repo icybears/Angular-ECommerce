@@ -152,6 +152,11 @@ import 'rxjs/add/operator/filter';
     </section>-->
     <section class="section-sm">
       <div class="container">
+      <div class="row">
+        <panier (panierCount)="handlePanierCount($event)"></panier>
+        <hr>
+        <strong>Dans votre panier: {{ itemsCount }} items</strong>
+      </div>
         <!-- RESULTAT DE RECHERCHE
         <div class="row">
           <div class="col-md-12">
@@ -167,7 +172,7 @@ import 'rxjs/add/operator/filter';
               <div class="widget category-list">
                 <h4 class="widget-header">Categorie</h4>
                 <ul class="category-list">
-               
+
                   <li>
                     <a [routerLink]="['/boutique']" [queryParams]="{categorie:'all'}">
                     Tout les produits <span>343</span></a>
@@ -280,6 +285,7 @@ import 'rxjs/add/operator/filter';
   `
 })
 export class BoutiqueComponent implements OnInit {
+  itemsCount: number = 0;
   produits: Produit[];
   categories: Categorie[];
   cooperatives: Cooperative[];
@@ -363,5 +369,8 @@ export class BoutiqueComponent implements OnInit {
         .getProduitsByCategorie(categorie.id)
         .subscribe((data: Produit[]) => (this.produits = data));
     }
+  }
+  handlePanierCount(count: number){
+    this.itemsCount = count;
   }
 }
