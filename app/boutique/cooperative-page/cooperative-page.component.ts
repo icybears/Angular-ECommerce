@@ -10,10 +10,10 @@ import { Cooperative } from "../cooperative/cooperative.interface";
   selector: "cooperative-page",
   template: `
     <div class="container">
-      <button (click)="goBack()" class="btn btn-light">
-        &lsaquo; Go Back
+      <button (click)="goBack()" class="btn btn-light btn-sm my-2">
+        &lsaquo; Retour
       </button>
-      <section class="my-4">
+      <section class="my-2">
         <div class="product-details row">
           <h1 class="product-title col-12">
             {{cooperative?.nom}}
@@ -21,7 +21,7 @@ import { Cooperative } from "../cooperative/cooperative.interface";
           <div class="product-meta col-12">
             <ul class="list-inline">
 
-            
+
             </ul>
           </div>
          <!-- <div class="col-md-6">

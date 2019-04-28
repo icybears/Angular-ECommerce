@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from "@angular/core";
+import { Component, OnInit, EventEmitter, Output, OnChanges } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Location } from "@angular/common";
 import { BoutiqueService } from "../boutique.service";
@@ -70,16 +70,23 @@ import { Produit } from "../produit/produit.interface";
               </td>
 
               <td class="product-category">
-                <span class="categories">{{item.quantite}}</span>
+                <span class="categories">
+                  <input (change)="updateQuantite($event)" type="text" [value]="item.quantite" style="width:20px"/>
+                  </span>
               </td>
               <td class="product-category">
-                <span>{{ item.produit.prix * item.quantite }}</span>
+                <span>{{ item.produit.prix * item.quantite }} DH</span>
               </td>
 
             </tr>
             <tr>
               <td colspan="5" align="right"><strong>Total</strong></td>
               <td class="text-center"><strong>{{ total }} DH</strong></td>
+          </tr>
+          <tr>
+            <td colspan="6" align="right">
+              <a href=""><button class="btn btn-success "><i class="fa fa-shopping-cart"></i> Confirmer</button></a>
+            </td>
           </tr>
           </tbody>
         </table>
@@ -90,7 +97,7 @@ import { Produit } from "../produit/produit.interface";
 
   `
 })
-export class PanierComponent implements OnInit {
+export class PanierComponent implements OnInit, OnChanges {
   items: Item[] = [];
   total: number = 0;
   redirect: boolean = false;
@@ -102,8 +109,13 @@ export class PanierComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
-    private boutiqueService: BoutiqueService
+    private boutiqueService: BoutiqueService,
+
   ) {}
+
+  ngOnChanges() {
+    this.loadCart();
+  }
 
   ngOnInit() {
     this.route.queryParams
@@ -154,8 +166,9 @@ export class PanierComponent implements OnInit {
                 localStorage.setItem("panier", JSON.stringify(panier));
               }
             }
+            this.loadCart();
           });
-          this.loadCart();
+
         } else {
           this.loadCart();
         }
@@ -163,10 +176,11 @@ export class PanierComponent implements OnInit {
         // if (this.redirect) {
         //   this.location.back();
         // }
+
       });
   }
 
-  loadCart(): void {
+  loadCart(): number {
     this.total = 0;
     this.items = [];
     let panier = JSON.parse(localStorage.getItem("panier"));
@@ -180,6 +194,7 @@ export class PanierComponent implements OnInit {
       this.total += item.produit.prix * item.quantite;
       this.panierCount.emit(this.items.length);
     }
+    return this.items.length;
   }
 
   remove(id: string): void {
@@ -196,6 +211,10 @@ export class PanierComponent implements OnInit {
     this.loadCart();
   }
 
+  updateQuantite(event) {
+
+  }
+  
   goBack() {
     this.router.navigate(["/boutique"]);
   }

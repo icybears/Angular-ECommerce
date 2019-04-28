@@ -66,11 +66,11 @@ import "rxjs/add/operator/switchMap";
             <div>
               Quantite: <quantite (quantiteChanged)="getQuantite($event)"></quantite>
             </div>
-            <button class="btn btn-success btn-lg">Ajouter au Panier</button>
+            <a [routerLink]="['/boutique/panier']" [queryParams]="{ produit: produit?.id, quantite:quantite}" ><button class="btn btn-success btn-lg">Ajouter au panier</button></a>
 
             <hr>
 
-            <a [routerLink]="['/boutique/panier']" [queryParams]="{ produit: produit?.id, quantite:quantite}" >Ajouter au panier</a>
+
           </div>
         </div>
       </section>
@@ -82,6 +82,7 @@ import "rxjs/add/operator/switchMap";
             class="col-lg-3 col-md-4 mb-4"
             *ngFor="let produit of produits"
             [produit]="produit"
+            (click)="scrollToTop($event)"
           ></produit>
         </div>
       </section>
@@ -124,5 +125,16 @@ export class ProduitPageComponent implements OnInit {
 
   goBack() {
     this.router.navigate(["/boutique"]);
+  }
+
+  scrollToTop(event) {
+    let scrollToTop = window.setInterval(() => {
+      let pos = window.pageYOffset;
+      if (pos > 0) {
+          window.scrollTo(0, pos - 20); // how far to scroll on each step
+      } else {
+          window.clearInterval(scrollToTop);
+      }
+  }, 16);
   }
 }

@@ -15,93 +15,7 @@ import 'rxjs/add/operator/filter';
       <div class="container">
         <div class="row">
           <div class="col-md-12">
-            <nav class="navbar navbar-expand-lg  navigation">
-              <a class="navbar-brand" href="index.html">
-                <img src="images/logo.png" alt="" />
-              </a>
-              <button
-                class="navbar-toggler"
-                type="button"
-                data-toggle="collapse"
-                data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-              >
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto main-nav ">
-                  <li class="nav-item active">
-                    <a class="nav-link" href="index.html">Home</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="dashboard.html">Dashboard</a>
-                  </li>
-                  <li class="nav-item dropdown dropdown-slide">
-                    <a
-                      class="nav-link dropdown-toggle"
-                      href="#"
-                      data-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                    >
-                      Pages <span><i class="fa fa-angle-down"></i></span>
-                    </a>
-    <!--                Dropdown list -->
-                    <div class="dropdown-menu dropdown-menu-right">
-                      <a class="dropdown-item" href="category.html">Category</a>
-                      <a class="dropdown-item" href="single.html"
-                        >Single Page</a
-                      >
-                      <a class="dropdown-item" href="store-single.html"
-                        >Store Single</a
-                      >
-                      <a class="dropdown-item" href="dashboard.html"
-                        >Dashboard</a
-                      >
-                      <a class="dropdown-item" href="user-profile.html"
-                        >User Profile</a
-                      >
-                      <a class="dropdown-item" href="submit-coupon.html"
-                        >Submit Coupon</a
-                      >
-                      <a class="dropdown-item" href="blog.html">Blog</a>
-                      <a class="dropdown-item" href="single-blog.html"
-                        >Single Post</a
-                      >
-                    </div>
-                  </li>
-                  <li class="nav-item dropdown dropdown-slide">
-                    <a
-                      class="nav-link dropdown-toggle"
-                      href=""
-                      data-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                    >
-                      Listing <span><i class="fa fa-angle-down"></i></span>
-                    </a>
-              <!--    Dropdown list -->
-                    <div class="dropdown-menu dropdown-menu-right">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </li>
-                </ul>
-                <ul class="navbar-nav ml-auto mt-10">
-                  <li class="nav-item">
-                    <a class="nav-link login-button" href="index.html">Login</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link add-button" [routerLink]="['/boutique/panier']">
-                    <i class="fa fa-shopping-cart"></i> Mon Panier <span class="badge badge-light">
-                    {{itemsCount}}</span></a>
-                  </li>
-                </ul>
-              </div>
-            </nav>
+            <navbar></navbar>
           </div>
         </div>
       </div>
@@ -152,9 +66,7 @@ import 'rxjs/add/operator/filter';
     </section>-->
     <section class="section-sm">
       <div class="container">
-      <div class="row">
-        <panier style="display:none;" (panierCount)="handlePanierCount($event)"></panier>
-      </div>
+
         <!-- RESULTAT DE RECHERCHE
         <div class="row">
           <div class="col-md-12">
@@ -173,11 +85,11 @@ import 'rxjs/add/operator/filter';
 
                   <li>
                     <a [routerLink]="['/boutique']" [queryParams]="{categorie:'all'}">
-                    Tout les produits <span>343</span></a>
+                    Tout les produits <span>{{produits?.length}}</span></a>
 
                   </li>
                   <li *ngFor="let categorie of categories">
-                    <a [routerLink]="['/boutique']" [queryParams]="{categorie:categorie?.id}">{{categorie?.nom}} <span>343</span></a>
+                    <a [routerLink]="['/boutique']" [queryParams]="{categorie:categorie?.id}">{{categorie?.nom}} <span>{{ this.getProductsCountByCategorie(categorie) }}</span></a>
 
                   </li>
                 </ul>
@@ -322,24 +234,9 @@ export class BoutiqueComponent implements OnInit {
         }
 
 
-        // this.order = params.order;
-        // console.log(this.order); // popular
+
       });
 
-
-    // this.route.params.subscribe((params: Params) => {
-    //   console.log("current route is: ", this.router.url);
-    //   if (params["id"] && params["id"] !== "all") {
-    //     let id = params["id"];
-    //     this.boutiqueService
-    //       .getProduitsByCategorie(id)
-    //       .subscribe((data: Produit[]) => (this.produits = data));
-    //   } else {
-    //     this.boutiqueService
-    //       .getProduits()
-    //       .subscribe((data: Produit[]) => (this.produits = data));
-    //   }
-    //});
 
     // get all categories
     this.boutiqueService
@@ -357,18 +254,22 @@ export class BoutiqueComponent implements OnInit {
       .subscribe((data: MatierePremiere[]) => (this.matieres_premieres = data));
   }
 
-  setCategorie(categorie: Categorie) {
-    if (!categorie) {
-      this.boutiqueService
-        .getProduits()
-        .subscribe((data: Produit[]) => (this.produits = data));
-    } else {
-      this.boutiqueService
-        .getProduitsByCategorie(categorie.id)
-        .subscribe((data: Produit[]) => (this.produits = data));
+  // setCategorie(categorie: Categorie) {
+  //   if (!categorie) {
+  //     this.boutiqueService
+  //       .getProduits()
+  //       .subscribe((data: Produit[]) => (this.produits = data));
+  //   } else {
+  //     this.boutiqueService
+  //       .getProduitsByCategorie(categorie.id)
+  //       .subscribe((data: Produit[]) => (this.produits = data));
+  //   }
+  // }
+
+    getProductsCountByCategorie(categorie: Categorie): number{
+      if(this.produits)
+      return this.produits.filter((produit) => produit.categorie.id == categorie.id).length;
+      else
+      return 0;
     }
-  }
-  handlePanierCount(count: number){
-    this.itemsCount = count;
-  }
 }

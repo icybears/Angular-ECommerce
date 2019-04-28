@@ -8,12 +8,12 @@ import { CategorieComponent } from './categorie/categorie.component';
 import { ProduitPageComponent } from './produit-page/produit-page.component';
 import { RouterModule, Routes } from '@angular/router';
 import { NavComponent } from '../navigation/nav.component';
-import { ProduitDetailComponent } from './produit-detail/produit-detail.component';
 import { FooterComponent } from './footer/footer.component';
 import { ProduitsGridComponent } from './produits-grid/produits-grid.component';
 import { CooperativePageComponent } from './cooperative-page/cooperative-page.component';
 import { QuantiteComponent } from './quantite/quantite.component';
 import { PanierComponent } from './panier/panier.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 const routes: Routes = [
   { path: 'boutique',
@@ -41,12 +41,12 @@ const routes: Routes = [
     ProduitComponent,
     CategorieComponent,
     ProduitPageComponent,
-    ProduitDetailComponent,
     ProduitsGridComponent,
     CooperativePageComponent,
     QuantiteComponent,
     PanierComponent,
-    FooterComponent
+    FooterComponent,
+    NavbarComponent
     ],
   providers: [
     BoutiqueService
