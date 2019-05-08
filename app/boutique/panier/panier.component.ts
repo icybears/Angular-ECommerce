@@ -185,6 +185,7 @@ export class PanierComponent implements OnInit, OnChanges {
     this.items = [];
     let panier = JSON.parse(localStorage.getItem("panier"));
     console.log(panier);
+    if(panier){
     for (var i = 0; i < panier.length; i++) {
       let item = JSON.parse(panier[i]);
       this.items.push({
@@ -193,6 +194,7 @@ export class PanierComponent implements OnInit, OnChanges {
       });
       this.total += item.produit.prix * item.quantite;
       this.panierCount.emit(this.items.length);
+    }
     }
     return this.items.length;
   }
@@ -214,7 +216,7 @@ export class PanierComponent implements OnInit, OnChanges {
   updateQuantite(event) {
 
   }
-  
+
   goBack() {
     this.router.navigate(["/boutique"]);
   }

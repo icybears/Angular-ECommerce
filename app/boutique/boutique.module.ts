@@ -15,6 +15,10 @@ import { QuantiteComponent } from './quantite/quantite.component';
 import { PanierComponent } from './panier/panier.component';
 import { NavbarComponent } from './navbar/navbar.component';
 
+import { FormsModule } from '@angular/forms';
+import { LoginPageComponent } from './login-client/loginPage.component';
+import { AuthModule } from '../auth/auth.module';
+
 const routes: Routes = [
   { path: 'boutique',
     children:[
@@ -22,6 +26,7 @@ const routes: Routes = [
       { path:'produit/:id', component: ProduitPageComponent},
       { path: 'cooperative/:id', component: CooperativePageComponent},
       { path: 'panier', component: PanierComponent },
+      { path: 'login', component: LoginPageComponent },
     ]
   }
 ];
@@ -31,6 +36,8 @@ const routes: Routes = [
   imports: [
             CommonModule,
             HttpModule,
+            FormsModule,
+            AuthModule,
             RouterModule.forChild(routes)
   ],
   exports: [
@@ -46,7 +53,8 @@ const routes: Routes = [
     QuantiteComponent,
     PanierComponent,
     FooterComponent,
-    NavbarComponent
+    NavbarComponent,
+    LoginPageComponent
     ],
   providers: [
     BoutiqueService

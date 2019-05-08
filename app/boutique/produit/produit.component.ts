@@ -17,10 +17,10 @@ import { Produit } from "./Produit.interface";
 		    <h4 class="card-title"><a [routerLink]="['/boutique/produit', produit?.id]">{{produit?.nom}}</a></h4>
 		    <ul class="list-inline product-meta">
 		    	<li class="list-inline-item">
-		    		<a [routerLink]="['/boutique/categorie',produit?.categorie.id]"><i class="fa fa-folder-open-o"></i>{{produit?.categorie?.nom}}</a>
+		    		<a [routerLink]="['/boutique/categorie',produit?.categorie?.id]"><i class="fa fa-folder-open-o"></i>{{produit?.categorie?.nom}}</a>
 		    	</li>
 		    	<li class="list-inline-item">
-		    		<a [routerLink]="['/boutique/cooperative',produit?.cooperative.id]"><i class="fa fa-certificate"></i>{{produit?.cooperative?.nom}}</a>
+		    		<a [routerLink]="['/boutique/cooperative',produit?.cooperative?.id]"><i class="fa fa-certificate"></i>{{produit?.cooperative?.nom}}</a>
 		    	</li>
 		    </ul>
 		    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, aliquam!</p>

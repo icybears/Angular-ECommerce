@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { PanierComponent } from '../panier/panier.component';
 
 @Component({
@@ -82,13 +82,16 @@ import { PanierComponent } from '../panier/panier.component';
                 </ul>
                 <ul class="navbar-nav ml-auto mt-10">
                   <li class="nav-item">
-                    <a class="nav-link login-button" href="index.html">Login</a>
+
+                    <a *ngIf="!isLoggedIn" class="nav-link login-button" [routerLink]="['/boutique/login']">Login</a>
+                    <a *ngIf="isLoggedIn" class="nav-link login-button" href="index.html"><i class="fa fa-user"></i> Mon Compte</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link add-button" [routerLink]="['/boutique/panier']">
                     <i class="fa fa-shopping-cart"></i> Mon Panier <span class="badge badge-light">
                     {{itemsCount}}</span></a>
                   </li>
+                 
                 </ul>
               </div>
             </nav>
@@ -96,8 +99,14 @@ import { PanierComponent } from '../panier/panier.component';
 })
 
 export class NavbarComponent implements OnInit {
+  @Input()
+  isLoggedIn: boolean = false;
+
+  @Input()
+  username: string = "";
 
   itemsCount: number = 0;
+
   constructor(private panierComponent: PanierComponent) { }
 
   ngOnInit() {

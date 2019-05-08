@@ -7,6 +7,7 @@ import { Cooperative } from "./cooperative/cooperative.interface";
 import { MatierePremiere } from "./matiere-premiere/matiere-premiere.interface";
 
 import 'rxjs/add/operator/filter';
+import { TokenStorageService } from "../auth/token-storage.service";
 
 @Component({
   selector: "boutique",
@@ -15,8 +16,8 @@ import 'rxjs/add/operator/filter';
       <div class="container">
         <div class="row">
           <div class="col-md-12">
-            <navbar></navbar>
-          </div>
+            <navbar [isLoggedIn]="isLoggedIn" [username]="username"></navbar>
+          </div> 
         </div>
       </div>
     </section>
@@ -200,11 +201,14 @@ export class BoutiqueComponent implements OnInit {
   categories: Categorie[];
   cooperatives: Cooperative[];
   matieres_premieres: MatierePremiere[];
+  isLoggedIn: boolean = false;
+  username: string = "";
 
   constructor(
     private boutiqueService: BoutiqueService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private tokenStorage: TokenStorageService
   ) {}
 
   ngOnInit() {
@@ -233,7 +237,10 @@ export class BoutiqueComponent implements OnInit {
          .subscribe((data: Produit[]) => (this.produits = data));
         }
 
-
+        if (this.tokenStorage.getToken()) {
+          this.isLoggedIn = true;
+          this.username = this.tokenStorage.getUsername();
+        }
 
       });
 
@@ -268,7 +275,13 @@ export class BoutiqueComponent implements OnInit {
 
     getProductsCountByCategorie(categorie: Categorie): number{
       if(this.produits)
-      return this.produits.filter((produit) => produit.categorie.id == categorie.id).length;
+      return this.produits.filter((produit) => {
+        if(produit.categorie)
+        return produit.categorie.id == categorie.id
+        else
+        return false;}
+        )
+        .length;
       else
       return 0;
     }

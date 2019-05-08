@@ -65,7 +65,7 @@ export class BoutiqueService {
       .get(CATEGORIE_API+`/${id}/produits`)
       .map((response: Response) => response.json());
   }
-  
+
   getProduitsByMatierePremiere(id:number): Observable<Produit[]> {
     let headers = new Headers({
       'Content-Type':'application/json'
