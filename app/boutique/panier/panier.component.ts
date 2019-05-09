@@ -121,11 +121,12 @@ export class PanierComponent implements OnInit, OnChanges {
     this.route.queryParams
       .filter(params => true)
       .subscribe(params => {
-        console.log("params", params);
-        console.log("params.produit", params.produit);
-        this.redirect = Boolean(params.produit || params.quantite);
-        let id = params.produit;
-        let quantite = params.quantite || 1;
+        console.log(params['produit']);
+        if(params['produit']){
+
+        this.redirect = Boolean(params['produit'] || params['quantite']);
+        let id = params['produit'];
+        let quantite = params['quantite'] || 1;
         let item: Item = new Item();
         if (id > 0) {
           this.boutiqueService.getProduitById(id).subscribe((data: Produit) => {
@@ -176,7 +177,7 @@ export class PanierComponent implements OnInit, OnChanges {
         // if (this.redirect) {
         //   this.location.back();
         // }
-
+      }
       });
   }
 

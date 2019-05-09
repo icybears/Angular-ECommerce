@@ -17,7 +17,7 @@ import { TokenStorageService } from "../auth/token-storage.service";
         <div class="row">
           <div class="col-md-12">
             <navbar [isLoggedIn]="isLoggedIn" [username]="username"></navbar>
-          </div> 
+          </div>
         </div>
       </div>
     </section>
@@ -216,19 +216,19 @@ export class BoutiqueComponent implements OnInit {
     this.route.queryParams
       .filter(params => true)
       .subscribe(params => {
-        if(params.categorie && params.categorie > 0){
+        if(params['categorie'] && params['categorie'] > 0){
           this.boutiqueService
-         .getProduitsByCategorie(params.categorie)
+         .getProduitsByCategorie(params['categorie'])
          .subscribe((data: Produit[]) => (this.produits = data));
-        } else if(params.cooperative && params.cooperative > 0)
+        } else if(params['cooperative'] && params['cooperative'] > 0)
         {
           this.boutiqueService
-          .getProduitsByCooperative(params.cooperative)
+          .getProduitsByCooperative(params['cooperative'])
           .subscribe((data: Produit[]) => (this.produits = data));
 
-        } else if(params.matierePremiere && params.matierePremiere > 0)
+        } else if(params['matierePremiere'] && params['matierePremiere'] > 0)
         {
-          this.boutiqueService.getProduitsByMatierePremiere(params.matierePremiere)
+          this.boutiqueService.getProduitsByMatierePremiere(params['matierePremiere'])
           .subscribe((data: Produit[]) => (this.produits = data));
         }
           else {

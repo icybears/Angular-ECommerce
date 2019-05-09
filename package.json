@@ -1,13 +1,9 @@
 {
-  "name": "angular-fundamentals-seed",
+  "name": "pfa-front",
   "version": "0.1.0",
-  "description": "Ultimate Angular: Angular Fundamentals Seed",
-  "repository": {
-    "url": "git@github.com:UltimateAngular/angular-fundamentals-seed.git",
-    "type": "git"
-  },
+  "description": "PFA Front",
   "license": "MIT",
-  "author": "Ultimate Angular",
+  "author": "",
   "dependencies": {
     "@angular/common": "4.3.0",
     "@angular/compiler": "4.3.0",

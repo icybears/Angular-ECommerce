@@ -13,7 +13,7 @@ import { Component, OnInit } from '@angular/core';
           <div class="row">
             <div class="col-md-9 col-lg-8 mx-auto">
               <h3 class="login-heading mb-4">Connectez-vous à votre compte!</h3>
-              <app-login></app-login>
+              <app-login redirectTo="/boutique"></app-login>
             </div>
           </div>
         </div>

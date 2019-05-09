@@ -1,17 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { AuthService } from '../auth.service';
 import { TokenStorageService } from '../token-storage.service';
 import { AuthLoginInfo } from '../login-info';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   template: `
-  <div *ngIf="isLoggedIn; else loggedOut">
-  Logged in as {{roles}}.
-</div>
 
-<ng-template #loggedOut>
+
     <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
       <div class="form-group">
         <label for="username">Username</label>
@@ -40,7 +38,7 @@ import { AuthLoginInfo } from '../login-info';
     <hr />
     <p>Don't have an account?</p>
     <a href="signup" class="btn btn-success">Sign Up</a>
-</ng-template>
+
   `
 })
 export class LoginComponent implements OnInit {
@@ -49,9 +47,15 @@ export class LoginComponent implements OnInit {
   isLoginFailed = false;
   errorMessage = '';
   roles: string[] = [];
+
+  @Input()
+  redirectTo: string = '';
+
   private loginInfo: AuthLoginInfo;
 
-  constructor(private authService: AuthService, private tokenStorage: TokenStorageService) { }
+  constructor(private authService: AuthService,
+    private tokenStorage: TokenStorageService,
+    private router: Router) { }
 
   ngOnInit() {
     if (this.tokenStorage.getToken()) {
@@ -87,6 +91,7 @@ export class LoginComponent implements OnInit {
   }
 
   reloadPage() {
-    window.location.reload();
+    // window.location.reload();
+    this.router.navigate([this.redirectTo]);
   }
 }
