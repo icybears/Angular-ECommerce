@@ -84,14 +84,14 @@ import { PanierComponent } from '../panier/panier.component';
                   <li class="nav-item">
 
                     <a *ngIf="!isLoggedIn" class="nav-link login-button" [routerLink]="['/boutique/login']">Login</a>
-                    <a *ngIf="isLoggedIn" class="nav-link login-button" href="index.html"><i class="fa fa-user"></i> Mon Compte</a>
+                    <a *ngIf="isLoggedIn" class="nav-link login-button" [routerLink]="['/boutique/compte']"><i class="fa fa-user"></i> Mon Compte</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link add-button" [routerLink]="['/boutique/panier']">
                     <i class="fa fa-shopping-cart"></i> Mon Panier <span class="badge badge-light">
                     {{itemsCount}}</span></a>
                   </li>
-                 
+
                 </ul>
               </div>
             </nav>

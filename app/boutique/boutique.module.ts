@@ -18,6 +18,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { FormsModule } from '@angular/forms';
 import { LoginPageComponent } from './login-client/loginPage.component';
 import { AuthModule } from '../auth/auth.module';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 const routes: Routes = [
   { path: 'boutique',
@@ -27,6 +28,7 @@ const routes: Routes = [
       { path: 'cooperative/:id', component: CooperativePageComponent},
       { path: 'panier', component: PanierComponent },
       { path: 'login', component: LoginPageComponent },
+      { path: 'compte', component: UserProfileComponent },
     ]
   }
 ];
@@ -54,7 +56,8 @@ const routes: Routes = [
     PanierComponent,
     FooterComponent,
     NavbarComponent,
-    LoginPageComponent
+    LoginPageComponent,
+    UserProfileComponent
     ],
   providers: [
     BoutiqueService
