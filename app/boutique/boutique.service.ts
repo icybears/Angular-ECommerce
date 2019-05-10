@@ -127,4 +127,6 @@ getCategories(): Observable<Categorie[]> {
       .get(MATIERE_PREMIERE_API)
       .map((response: Response) => response.json());
   }
+
+ 
 }
