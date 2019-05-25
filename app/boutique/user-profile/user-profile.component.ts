@@ -5,6 +5,7 @@ import { TokenStorageService } from "../../auth/token-storage.service";
 import { Client } from "./client/client.interface";
 import { HttpHeaders } from "@angular/common/http";
 import { Router } from "@angular/router";
+import { UserProfileService } from "./user-profile.service";
 
 @Component({
   selector: "user-profile",
@@ -33,6 +34,9 @@ import { Router } from "@angular/router";
                         >23</span
                       ></a
                     >
+                    <li (click)="logout()">
+                    <a href="#!"><i class="fa fa-cog"></i> Logout</a>
+                  </li>
                   <!--
                   <li>
                     <a href="dashboard-favourite-ads.html"
@@ -54,9 +58,7 @@ import { Router } from "@angular/router";
                     >
                   </li>
                   -->
-                  <li>
-                    <a href="logout.html"><i class="fa fa-cog"></i> Logout</a>
-                  </li>
+
                   <!--
                   <li>
                     <a href="delete-account.html"
@@ -70,6 +72,12 @@ import { Router } from "@angular/router";
           </div>
           <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
             <!-- Edit Personal Info -->
+            <div *ngIf="showNotification" class="alert alert-success alert-dismissible fade show" role="alert">
+              Information mise à jours!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
             <div class="widget personal-info">
               <h3 class="widget-header user">Mes Information Personnelle</h3>
               <form
@@ -238,56 +246,42 @@ export class UserProfileComponent implements OnInit {
   form: any = {};
   JWTtoken: string = "";
   client: Client = null;
-  profileAPI: string = "http://localhost:8080/PFA/api/v1/profile";
-  clientAPI: string = "http://localhost:8080/PFA/api/v1/clients";
+  showNotification: boolean = false;
 
   constructor(
     private http: Http,
     private tokenStorageService: TokenStorageService,
     private router: Router,
+    private userProfileService: UserProfileService
   ) {}
 
   ngOnInit() {
     this.JWTtoken = this.tokenStorageService.getToken();
-    this.getAuthenticatedClient().subscribe((data: Client) => {
-      this.client = data;
-      console.log(this.client);
-    });
+    this.userProfileService.getAuthenticatedClient(this.JWTtoken)
+    .subscribe((data: Client) => {
+        this.client = data;
+        console.log(this.client);
+      });
+
   }
 
-  getAuthenticatedClient(): Observable<Client> {
-
-    let headers = new Headers({
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${this.JWTtoken}`
-    });
-    let options = new RequestOptions({
-      headers: headers
-    });
-    return this.http
-      .get(this.profileAPI, options)
-      .map((response: Response) => response.json());
-  }
-
-  updateClientDetails(client: Client):Observable<Client> {
-    let headers = new Headers({
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${this.JWTtoken}`
-    });
-    let options = new RequestOptions({
-      headers: headers
-    });
-    return this.http
-      .put(`${this.clientAPI}/${client.id}`,client, options)
-      .map((response: Response) => response.json());
-  }
   onSubmit(){
     console.log(this.client);
-    this.updateClientDetails(this.client)
+    this.userProfileService.updateClientDetails(this.client,this.JWTtoken)
     .subscribe((data: Client) => {
-      console.log("data: "+data);
-      // this.client = data;
+
+      this.client = data;
+      this.showNotification = true;
+      window.scroll(0,0);
+      window.setTimeout(()=>{
+        this.showNotification = false;
+      },3000)
     });
+  }
+
+  logout() {
+  this.tokenStorageService.signOut();
+  this.goBack();
   }
 
   goBack() {

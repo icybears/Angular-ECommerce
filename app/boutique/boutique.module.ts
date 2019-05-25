@@ -19,6 +19,7 @@ import { FormsModule } from '@angular/forms';
 import { LoginPageComponent } from './login-client/loginPage.component';
 import { AuthModule } from '../auth/auth.module';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { UserProfileService } from './user-profile/user-profile.service';
 
 const routes: Routes = [
   { path: 'boutique',
@@ -60,7 +61,8 @@ const routes: Routes = [
     UserProfileComponent
     ],
   providers: [
-    BoutiqueService
+    BoutiqueService,
+    UserProfileService
   ],
 })
 export class BoutiqueModule { }
